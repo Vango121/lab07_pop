@@ -38,6 +38,7 @@ public class HotelScene implements Initializable, UiInterface {
     List<Room> oneRoom = new ArrayList<>();
     List<Room> twoRoom = new ArrayList<>();
     List<Room> threeRoom = new ArrayList<>();
+    List<HotelRoomThread> hotelRoomThreads = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -96,6 +97,10 @@ public class HotelScene implements Initializable, UiInterface {
             oneRoom.add(room);
             itemList.add("id: " + room.getIdd() + " romiar: " + room.getSize() + " wolny: " + room.isEmpty());
             id++;
+            HotelRoomThread hotelRoomThread = new HotelRoomThread(room.getPort());
+            hotelRoomThreads.add(hotelRoomThread);
+            hotelRoomThread.setDaemon(true);
+            hotelRoomThread.start();
         }
         for (int i = 0; i < two; i++) {
             Room room = new Room(id, findPort(), 2, true);
@@ -104,6 +109,10 @@ public class HotelScene implements Initializable, UiInterface {
             twoRoom.add(room);
             itemList.add("id: " + room.getIdd() + " romiar: " + room.getSize() + " wolny: " + room.isEmpty());
             id++;
+            HotelRoomThread hotelRoomThread = new HotelRoomThread(room.getPort());
+            hotelRoomThreads.add(hotelRoomThread);
+            hotelRoomThread.setDaemon(true);
+            hotelRoomThread.start();
         }
         for (int i = 0; i < three; i++) {
             Room room = new Room(id, findPort(), 3, true);
@@ -112,6 +121,10 @@ public class HotelScene implements Initializable, UiInterface {
             threeRoom.add(room);
             itemList.add("id: " + room.getIdd() + " romiar: " + room.getSize() + " wolny: " + room.isEmpty());
             id++;
+            HotelRoomThread hotelRoomThread = new HotelRoomThread(room.getPort());
+            hotelRoomThreads.add(hotelRoomThread);
+            hotelRoomThread.setDaemon(true);
+            hotelRoomThread.start();
         }
     }
 
@@ -162,9 +175,6 @@ public class HotelScene implements Initializable, UiInterface {
         Platform.runLater(() -> {
             int length = String.valueOf(id).length();
             System.out.println(id + " do usuniecia" + length);
-//            for (int i = 0; i < itemList.size(); i++) {
-//                if (Integer.parseInt(itemList.get(i).substring(4, 4 + length) + "") == id) itemList.remove(i);
-//            }
             itemList.removeIf(item -> item.substring(4, 4 + length).equals(String.valueOf(id)));
         });
 
@@ -172,7 +182,24 @@ public class HotelScene implements Initializable, UiInterface {
 
     @Override
     public void cancelReservation() {
-
+        for (int i = 0; i <oneRoom.size(); i++) {
+            if(oneRoom.get(i).isEmpty()) {
+                setDataForJavaFX(oneRoom.get(i), i);
+                hotelRoomThreads.get(i).changeKey();
+            }
+        }
+        for (int i = 0; i <twoRoom.size(); i++) {
+            if(twoRoom.get(i).isEmpty()) {
+                setDataForJavaFX(twoRoom.get(i), i + oneRoom.size());
+                hotelRoomThreads.get(i+oneRoom.size()).changeKey();
+            }
+        }
+        for (int i = 0; i <threeRoom.size(); i++) {
+            if(threeRoom.get(i).isEmpty()) {
+                setDataForJavaFX(threeRoom.get(i), i + oneRoom.size() + twoRoom.size());
+                hotelRoomThreads.get(i+oneRoom.size()+twoRoom.size()).changeKey();
+            }
+        }
     }
 
     @Override

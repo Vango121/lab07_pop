@@ -37,57 +37,74 @@ public class GuestScene implements Initializable {
     }
 
     PrintWriter out;
-    int index = 1;
+    int count = 0;
 
     public void start(ActionEvent actionEvent) {
-        Thread t = new Thread(() -> {
-            try {
-                Socket socket = new Socket("localhost", 80);
-                out = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                String inputLine;
-                //out.println("client");
-                getRoom();
-                while ((inputLine = in.readLine()) != null) {
-                    System.out.println(inputLine);
-                    if (inputLine.startsWith("R")) {
-                        String[] tab = inputLine.split("/");
-                        itemList.add("Room nr " + tab[2] + " rozmiar " + inputLine.charAt(1));
-                        ClientRoomModel clientRoomModel = new ClientRoomModel(tab[2], inputLine.charAt(1), tab[1], Integer.parseInt(tab[3]));
-                        roomsList.add(clientRoomModel);
-                        clientRoomModel.setDaemon(true);
-                        clientRoomModel.start();
-                        //Pair<Thread,PrintWriter> pair = new Pair<>(rt,out);
-                        //threadsRoomList.add(pair);
+        if(count ==0){
+            Thread t = new Thread(() -> {
+                try {
+                    Socket socket = new Socket("localhost", 80);
+                    out = new PrintWriter(socket.getOutputStream(), true);
+                    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    String inputLine;
+                    //out.println("client");
+                    getRoom();
+                    while ((inputLine = in.readLine()) != null) {
+                        System.out.println(inputLine);
+                        if (inputLine.startsWith("R")) {
+                            setList(inputLine);
+//                            String[] tab = inputLine.split("/");
+//                            itemList.add("Room nr " + tab[2] + " rozmiar " + inputLine.charAt(1));
+//                            ClientRoomModel clientRoomModel = new ClientRoomModel(tab[2], inputLine.charAt(1), tab[1], Integer.parseInt(tab[3]));
+//                            roomsList.add(clientRoomModel);
+//                            clientRoomModel.setDaemon(true);
+//                            clientRoomModel.start();
+                            //Pair<Thread,PrintWriter> pair = new Pair<>(rt,out);
+                            //threadsRoomList.add(pair);
+                        }
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            });
+            t.setDaemon(true);
+            t.start();
+            count++;
+        }else{
+            getRoom();
+        }
+
+    }
+    private void setList(String inputLine){
+        Platform.runLater(()->{
+            String[] tab = inputLine.split("/");
+            itemList.add("Room nr " + tab[2] + " rozmiar " + inputLine.charAt(1));
+            ClientRoomModel clientRoomModel = new ClientRoomModel(tab[2], inputLine.charAt(1), tab[1], Integer.parseInt(tab[3]));
+            roomsList.add(clientRoomModel);
+            clientRoomModel.setDaemon(true);
+            clientRoomModel.start();
         });
-        t.setDaemon(true);
-        t.start();
     }
-    PrintWriter out1;
-    private Pair<Thread,PrintWriter> connectToRoom(ClientRoomModel clientRoomModel) {
-         Thread t = new Thread(() -> {
-            try {
-                Socket socket = new Socket("localhost", clientRoomModel.getPort());
-                out1 = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader in1 = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                String inputLine;
-                out1.println("client to Room");
-                while ((inputLine = in1.readLine()) != null && running) {
-                    System.out.println(inputLine);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }, clientRoomModel.getIdd());
-         t.setDaemon(true);
-         t.start();
-         return new Pair<>(t,out1);
-    }
+    //PrintWriter out1;
+//    private Pair<Thread,PrintWriter> connectToRoom(ClientRoomModel clientRoomModel) {
+//         Thread t = new Thread(() -> {
+//            try {
+//                Socket socket = new Socket("localhost", clientRoomModel.getPort());
+//                out1 = new PrintWriter(socket.getOutputStream(), true);
+//                BufferedReader in1 = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//                String inputLine;
+//                out1.println("client to Room");
+//                while ((inputLine = in1.readLine()) != null && running) {
+//                    System.out.println(inputLine);
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }, clientRoomModel.getIdd());
+//         t.setDaemon(true);
+//         t.start();
+//         return new Pair<>(t,out1);
+//    }
 
     private void getRoom() {
         Platform.runLater(() -> {
@@ -101,10 +118,11 @@ public class GuestScene implements Initializable {
         for(ClientRoomModel room : roomsList){
             stringBuilder.append("/").append(room.getIdd());
         }
-        out.println(stringBuilder.toString());
         for(ClientRoomModel room : roomsList){
             room.out1.println("endReservation");
         }
+        System.out.println(stringBuilder+" sb");
+        out.println(stringBuilder.toString());
         roomsList.clear();
         running = false;
         threadsRoomList.clear();

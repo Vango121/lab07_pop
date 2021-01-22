@@ -64,8 +64,8 @@ public class Room extends Thread {
         return key;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setKey() {
+        this.key = generateKey();
     }
     private Socket socket;
 
@@ -99,11 +99,17 @@ public class Room extends Thread {
                 System.out.println(inputLine+" room");
                 if(inputLine.startsWith("doors")&& inputLine.contains(key)) {
                     isSomeone = !isSomeone;
-                }if(inputLine.equals("endReservation")) {
+                }else if(inputLine.equals("endReservation")) {
+                    empty=true;
                     System.out.println("closed room from client");
                     out1.println("closed room"+id);
                     socket.close();
                     break;
+                }else if(inputLine.equals("close")){
+                    socket.close();
+                    break;
+                }else if(inputLine.equals("newKey")){
+                    key=generateKey();
                 }
             }
         } catch (IOException e) {
@@ -120,13 +126,13 @@ public class Room extends Thread {
                 out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out.println("room" + id + " size" + size);
-                Thread.sleep(3000);
+                //Thread.sleep(3000);
                 //out.println("close"+id);
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
                     System.out.println(inputLine);
                 }
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
