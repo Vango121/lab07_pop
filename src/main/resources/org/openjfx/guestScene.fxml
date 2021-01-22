@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.GuestScene">
+   <children>
+      <Button layoutX="131.0" layoutY="188.0" mnemonicParsing="false" onAction="#start" text="Rezerwuj" />
+      <Label layoutX="47.0" layoutY="57.0" text="Pokoje 1 os" />
+      <Label layoutX="47.0" layoutY="96.0" text="Pokoje 2 os" />
+      <Label layoutX="47.0" layoutY="129.0" text="Pokoje 3 os" />
+      <TextField fx:id="oneRoom" layoutX="119.0" layoutY="53.0" prefHeight="25.0" prefWidth="84.0" />
+      <TextField fx:id="twoRoom" layoutX="119.0" layoutY="92.0" prefHeight="25.0" prefWidth="84.0" />
+      <TextField fx:id="threeRoom" layoutX="119.0" layoutY="125.0" prefHeight="25.0" prefWidth="84.0" />
+      <ListView fx:id="rooms" layoutX="366.0" layoutY="38.0" prefHeight="200.0" prefWidth="200.0" />
+      <Button layoutX="440.0" layoutY="266.0" mnemonicParsing="false" onAction="#endReservation" text="Zakończ pobyt" />
+   </children>
+</AnchorPane>

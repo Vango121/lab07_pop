@@ -8,7 +8,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'mysql:mysql-connector-java:6.0.+'
 }
 
 javafx {
