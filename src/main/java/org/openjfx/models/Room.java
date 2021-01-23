@@ -67,6 +67,7 @@ public class Room extends Thread {
     public void setKey() {
         this.key = generateKey();
     }
+
     private Socket socket;
 
     public void run() {

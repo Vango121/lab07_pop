@@ -17,7 +17,7 @@ public class ClientRoomModel extends Thread {
 
     public ClientRoomModel(String id, int rozmiar, String key, int port) {
         this.id = id;
-        this.rozmiar = rozmiar;
+        this.rozmiar = rozmiar-48;
         this.key = key;
         this.port = port;
     }
@@ -36,6 +36,11 @@ public class ClientRoomModel extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void enterRoom() {
+        out1.println("doors " + key);
+        isSomeone=!isSomeone;
     }
 
     public int getPort() {
