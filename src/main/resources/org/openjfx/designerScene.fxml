@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.DesignerScene">
+   <children>
+      <Button layoutX="122.0" layoutY="197.0" mnemonicParsing="false" onAction="#buttonQA" prefHeight="64.0" prefWidth="163.0" text="Add QA" />
+      <Button layoutX="449.0" layoutY="197.0" mnemonicParsing="false" onAction="#buttonDescription" prefHeight="64.0" prefWidth="114.0" text="Send descr" />
+      <TextField fx:id="answerTextField" layoutX="40.0" layoutY="114.0" prefHeight="51.0" prefWidth="163.0" />
+      <TextField fx:id="questionTextField" layoutX="241.0" layoutY="114.0" prefHeight="51.0" prefWidth="163.0" />
+      <TextField fx:id="descriptionTextField" layoutX="424.0" layoutY="114.0" prefHeight="51.0" prefWidth="163.0" />
+      <Label layoutX="115.0" layoutY="70.0" text="Pytanie" />
+      <Label layoutX="292.0" layoutY="70.0" text="Odpowiedz" />
+      <Label layoutX="481.0" layoutY="87.0" text="Opis" />
+      <ComboBox fx:id="comboBox" layoutX="536.0" layoutY="58.0" prefHeight="25.0" prefWidth="39.0" />
+      <Label layoutX="513.0" layoutY="62.0" text="ID" />
+   </children>
+</AnchorPane>

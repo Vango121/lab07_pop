@@ -2,6 +2,10 @@ package org.openjfx;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -24,21 +28,26 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+
     }
 
     @FXML
     public void hotel(ActionEvent actionEvent) throws IOException {
-        changeScene(actionEvent, "hotelScene.fxml");
+        changeScene(actionEvent, "designerScene.fxml");
     }
 
     @FXML
     public void guest(ActionEvent actionEvent) throws IOException {
-        changeScene(actionEvent, "guestScene.fxml");
+        changeScene(actionEvent,"standScene.fxml");
     }
 
     @FXML
     public void room(ActionEvent actionEvent) throws IOException {
-        changeScene(actionEvent, "roomScene.fxml");
+        changeScene(actionEvent, "visitorScene.fxml");
+    }
+    @FXML
+    public void monitor(ActionEvent actionEvent) throws IOException {
+        changeScene(actionEvent, "monitorScene.fxml");
     }
 
     private void changeScene(ActionEvent actionEvent, String name) throws IOException {

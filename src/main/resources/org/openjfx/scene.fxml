@@ -8,13 +8,14 @@
    <children>
             <AnchorPane id="anchor" prefHeight="200.0" prefWidth="200.0">
          <children>
-                  <Button id="login" alignment="CENTER" layoutX="228.0" layoutY="67.0" mnemonicParsing="false" onAction="#hotel" prefHeight="52.0" prefWidth="118.0" text="Hotel">
+                  <Button id="login" alignment="CENTER" layoutX="228.0" layoutY="67.0" mnemonicParsing="false" onAction="#hotel" prefHeight="52.0" prefWidth="118.0" text="Designer">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                   </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="228.0" layoutY="148.0" mnemonicParsing="false" onAction="#room" prefHeight="52.0" prefWidth="118.0" text="Room" />
-            <Button alignment="CENTER" layoutX="228.0" layoutY="221.0" mnemonicParsing="false" onAction="#guest" prefHeight="52.0" prefWidth="118.0" text="Gość" />
+            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="228.0" layoutY="206.0" mnemonicParsing="false" onAction="#room" prefHeight="52.0" prefWidth="118.0" text="Visitor" />
+            <Button alignment="CENTER" layoutX="228.0" layoutY="133.0" mnemonicParsing="false" onAction="#guest" prefHeight="52.0" prefWidth="118.0" text="Stand" />
+            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="228.0" layoutY="283.0" mnemonicParsing="false" onAction="#monitor" prefHeight="52.0" prefWidth="118.0" text="Monitor" />
          </children></AnchorPane>
          </children>
 </StackPane>
